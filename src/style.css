@@ -162,6 +162,32 @@ h2 { font-size: 1.15rem; margin-top: 0; }
   font-size: 0.82rem;
 }
 
+.category-disclaimer { margin: 0.5rem 0 0.3rem; font-size: 0.78rem; }
+
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+.category-chip {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: white;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.category-chip.active {
+  background: var(--accent);
+  color: white;
+}
+.category-chip .chip-count {
+  opacity: 0.75;
+  font-size: 0.78rem;
+}
+
 .no-result {
   text-align: center;
   color: #777;

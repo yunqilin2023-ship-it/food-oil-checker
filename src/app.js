@@ -4,6 +4,18 @@
 let PRODUCTS = [];
 let BUSINESSES = [];
 let META = { products: null, businesses: null };
+let activeCategory = "";
+
+const CATEGORY_ORDER = [
+  "連鎖餐飲・咖啡・手搖飲・烘焙",
+  "超市・量販・百貨",
+  "傳統市場・雜糧行・商行",
+  "飯店・團膳・機構餐飲",
+  "食品廠商(超市/賣場包裝商品)",
+  "物流・倉儲・批發配送(非消費者直接接觸)",
+  "個人零售",
+  "其他/無法判斷",
+];
 
 async function loadData() {
   const [productsRes, businessesRes] = await Promise.all([
@@ -22,6 +34,7 @@ async function loadData() {
     `油品品項資料截止於 ${productsJson.資料截止},下游業者名單截止於 ${businessesJson.資料截止}`;
 
   populateCityFilter();
+  renderCategoryChips();
   renderBusinessMeta();
   renderProductResults(""); // 顯示全部 18 項
   renderBusinessResults("", "");
@@ -38,6 +51,41 @@ function populateCityFilter() {
     opt.textContent = city;
     select.appendChild(opt);
   }
+}
+
+function renderCategoryChips() {
+  const counts = {};
+  for (const b of BUSINESSES) {
+    if (b.狀態 !== "目前流入市面") continue; // 已排除/重複者不列入分類統計
+    counts[b.消費情境分類] = (counts[b.消費情境分類] || 0) + 1;
+  }
+  const container = document.getElementById("category-chips");
+  container.innerHTML = "";
+
+  const allChip = document.createElement("button");
+  allChip.className = "category-chip active";
+  allChip.textContent = `全部 (${BUSINESSES.filter((b) => b.狀態 === "目前流入市面").length})`;
+  allChip.addEventListener("click", () => selectCategory("", allChip));
+  container.appendChild(allChip);
+
+  for (const cat of CATEGORY_ORDER) {
+    if (!counts[cat]) continue;
+    const chip = document.createElement("button");
+    chip.className = "category-chip";
+    chip.innerHTML = `${escapeHtml(cat)} <span class="chip-count">(${counts[cat]})</span>`;
+    chip.addEventListener("click", () => selectCategory(cat, chip));
+    container.appendChild(chip);
+  }
+}
+
+function selectCategory(cat, chipEl) {
+  activeCategory = cat;
+  document.querySelectorAll(".category-chip").forEach((c) => c.classList.remove("active"));
+  chipEl.classList.add("active");
+  renderBusinessResults(
+    document.getElementById("business-search").value,
+    document.getElementById("city-filter").value
+  );
 }
 
 function renderBusinessMeta() {
@@ -110,13 +158,14 @@ function renderBusinessResults(query, city) {
   const container = document.getElementById("business-results");
   const q = normalize(query);
   let matches = BUSINESSES;
+  if (activeCategory) matches = matches.filter((b) => b.消費情境分類 === activeCategory);
   if (city) matches = matches.filter((b) => b.縣市 === city);
   if (q) matches = matches.filter((b) => normalize(b.業者).includes(q));
 
   container.innerHTML = "";
 
-  if (!q && !city) {
-    container.innerHTML = `<div class="no-result">請輸入業者名稱關鍵字,或選擇縣市開始查詢(共 ${BUSINESSES.length} 筆通報紀錄)。</div>`;
+  if (!q && !city && !activeCategory) {
+    container.innerHTML = `<div class="no-result">請選擇上方分類、輸入業者名稱關鍵字,或選擇縣市開始查詢(共 ${BUSINESSES.length} 筆通報紀錄)。</div>`;
     return;
   }
   if (matches.length === 0) {
@@ -137,6 +186,7 @@ function renderBusinessResults(query, city) {
     card.innerHTML = `
       ${badge}
       <div class="result-title">${escapeHtml(b.業者)}</div>
+      <div class="result-meta">分類:${escapeHtml(b.消費情境分類)}</div>
       <div class="result-meta">通報品項/批號原文:${escapeHtml(b.品項備註原文)}</div>
     `;
     container.appendChild(card);
