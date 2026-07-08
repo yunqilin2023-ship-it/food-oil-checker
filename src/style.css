@@ -1,0 +1,179 @@
+:root {
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --yellow: #a67c00;
+  --yellow-bg: #fff8e1;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --grey: #616161;
+  --grey-bg: #f0f0f0;
+  --ink: #222;
+  --paper: #fafafa;
+  --border: #ddd;
+  --accent: #1a5276;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.site-header {
+  background: var(--accent);
+  color: white;
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+}
+.site-header h1 { margin: 0 0 0.25rem; font-size: 1.6rem; }
+.subtitle { margin: 0; opacity: 0.9; font-size: 0.95rem; }
+
+.disclaimer {
+  background: var(--yellow-bg);
+  border-bottom: 2px solid var(--yellow);
+  color: #6b4f00;
+  padding: 0.9rem 1rem;
+  font-size: 0.88rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.disclaimer a { color: var(--accent); }
+
+.summary-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 1.2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.stat { text-align: center; }
+.stat-num { display: block; font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 0.8rem; color: #555; }
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.tab-btn {
+  flex: 1;
+  max-width: 260px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.2rem 1rem 2rem;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+h2 { font-size: 1.15rem; margin-top: 0; }
+.hint { font-size: 0.85rem; color: #555; }
+
+.search-box {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0.8rem 0;
+}
+.search-box input[type="text"] {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.search-box select {
+  padding: 0.6rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+.photo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.photo-btn input[type="file"] { display: none; }
+
+.ocr-status {
+  font-size: 0.85rem;
+  color: var(--accent);
+  min-height: 1.2em;
+  margin-bottom: 0.5rem;
+}
+
+.results { display: flex; flex-direction: column; gap: 0.7rem; }
+
+.result-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: white;
+}
+.result-card.match-exact { border-color: var(--red); background: var(--red-bg); }
+.result-card.match-partial { border-color: var(--yellow); background: var(--yellow-bg); }
+.result-card.match-excluded { border-color: var(--grey); background: var(--grey-bg); opacity: 0.85; }
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+.badge-danger { background: var(--red); color: white; }
+.badge-warn { background: var(--yellow); color: white; }
+.badge-excluded { background: var(--grey); color: white; }
+
+.result-title { font-weight: 700; font-size: 1.02rem; margin: 0.1rem 0; }
+.result-meta { font-size: 0.85rem; color: #444; }
+.result-meta code {
+  background: rgba(0,0,0,0.06);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+
+.no-result {
+  text-align: center;
+  color: #777;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.site-footer {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #777;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.site-footer a { color: var(--accent); }

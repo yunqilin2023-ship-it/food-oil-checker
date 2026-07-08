@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問題沙拉油查詢工具 | 中聯油脂案</title>
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>問題沙拉油查詢工具</h1>
+    <p class="subtitle">中聯油脂案・苯駢芘超標大豆沙拉油下游查詢</p>
+  </header>
+
+  <div class="disclaimer">
+    <strong>⚠️ 本站為民間輔助查詢工具,非食藥署官方系統。</strong>
+    資料整理自食藥署「<a href="https://www.fda.gov.tw/tc/siteList.aspx?sid=13708" target="_blank" rel="noopener">中聯油脂案專區</a>」公告 PDF,
+    <span id="data-updated-note">資料截止日期讀取中…</span>。
+    名單仍在持續更新,查詢結果僅供初步比對,<strong>若顯示相符或不確定,請務必以食藥署官方公告及原始 PDF 為準</strong>,不要僅憑本站結果做退換貨或食用與否的最終判斷。
+  </div>
+
+  <section class="summary-stats" id="summary-stats">
+    <div class="stat"><span class="stat-num">401</span><span class="stat-label">受影響食品項目(累計)</span></div>
+    <div class="stat"><span class="stat-num">360</span><span class="stat-label">通報下游業者(含已排除)</span></div>
+    <div class="stat"><span class="stat-num">18</span><span class="stat-label">第一層問題油品品項</span></div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="product">🛢️ 查油品批號</button>
+    <button class="tab-btn" data-tab="business">🏬 查店家/業者</button>
+  </nav>
+
+  <main>
+    <section id="tab-product" class="tab-panel active">
+      <h2>我買的油,是問題產品之一嗎?</h2>
+      <p class="hint">輸入品牌、品名或瓶身上的批號,或上傳/拍攝產品標籤照片自動辨識文字比對。目前僅收錄食藥署公布的 18 項第一層(泰山/福壽/福懋)問題油品,不含下游二次加工食品。</p>
+
+      <div class="search-box">
+        <input type="text" id="product-search" placeholder="例如:泰山沙拉油、益康大豆沙拉油、C2140426O…">
+        <label class="photo-btn">
+          📷 拍照/上傳標籤辨識
+          <input type="file" id="product-photo" accept="image/*" capture="environment">
+        </label>
+      </div>
+      <div id="ocr-status" class="ocr-status"></div>
+
+      <div id="product-results" class="results"></div>
+    </section>
+
+    <section id="tab-business" class="tab-panel">
+      <h2>我常去的店家/買的商品,業者用到問題油了嗎?</h2>
+      <p class="hint">輸入店家、公司或商行名稱關鍵字(例如「路易莎」「金色三麥」),或依縣市篩選。此清單為食藥署公布之下游業者通報名單。</p>
+
+      <div class="search-box">
+        <input type="text" id="business-search" placeholder="輸入業者名稱關鍵字…">
+        <select id="city-filter">
+          <option value="">全部縣市</option>
+        </select>
+      </div>
+
+      <div id="business-meta" class="hint"></div>
+      <div id="business-results" class="results"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>資料來源:衛生福利部食品藥物管理署「中聯油脂案專區」<a href="https://www.fda.gov.tw/tc/siteList.aspx?sid=13708" target="_blank" rel="noopener">fda.gov.tw</a></p>
+    <p>本站不隸屬食藥署,純為方便消費者初步查詢之工具;程式碼與資料處理過程公開透明,如發現資料有誤請對照官方原始 PDF 回報。</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
